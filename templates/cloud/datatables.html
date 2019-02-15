@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load staticfiles%}
+{% block title %}资产总表{% endblock %}
+{% block data_active %}active{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'plugins/datatables/dataTables.bootstrap.css' %}">
+{% endblock %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        资产总表
+        <small>Eshare</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">资产总表</li>
+      </ol>
+    </section>
+
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+{#            <div class="box-header">#}
+{#              <h3 class="box-title">资产总表</h3>#}
+{#            </div>#}
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table id="assets_table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>资产类型</th>
+                  <th>子类型</th>
+                  <th>资产名称</th>
+                  <th>设备状态</th>
+                  <th>所属产品线</th>
+                  <th>管理IP</th>
+                  <th>使用者</th>
+                  <th>创建日期</th>
+                  <th>更新日期</th>
+                  <th>备注</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for asset in assets %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  {% if asset.asset_type == 'server' %}
+                      <td class="text-primary text-bold">{{ asset.get_asset_type_display }}</td>
+                      <td>{{ asset.server.get_sub_asset_type_display }}</td>
+                  {% elif asset.asset_type == "networkdevice" %}
+                      <td class="text-green text-bold">{{ asset.get_asset_type_display }}</td>
+                      <td>{{ asset.networkdevice.get_sub_asset_type_display }}</td>
+                  {% elif asset.asset_type == "storagedevice" %}
+                      <td class="text-danger text-bold">{{ asset.get_asset_type_display }}</td>
+                      <td>{{ asset.storagedevice.get_sub_asset_type_display }}</td>
+                  {% endif %}
+                  <td>{{ asset.name }}</td>
+                    {% if asset.status == 0 %}
+                      <td><label class="label label-success">{{ asset.get_status_display }}</label></td>
+                    {% elif asset.status == 1 %}
+                      <td><label class="label label-danger">{{ asset.get_status_display }}</label></td>
+                    {% elif asset.status == 2 %}
+                      <td><label class="label label-default">{{ asset.get_status_display }}</label></td>
+                    {% elif asset.status == 3 %}
+                      <td><label class="label label-warning">{{ asset.get_status_display }}</label></td>
+                    {% endif %}
+                  <td>{{ asset.business_unit|default_if_none:"-" }}</td>
+                  <td>{{ asset.manage_ip|default:"-" }}</td>
+                  <td>{{ asset.user|default:"-" }}</td>
+                  <td>{{ asset.c_time|date:"Y/m/d" }}</td>
+                  <td>{{ asset.m_time|date:"Y/m/d" }}</td>
+                  <td>{{ asset.memo|default:"-" }}</td>
+                </tr>
+                {% empty %}
+                  <tr>没有数据！</tr>
+                {% endfor %}
+
+              </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+    </div>
+    <!-- /.row -->
+ </section>
+
+{% endblock %}
+
+{% block js %}
+    <!-- DataTables -->
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/dataTables.bootstrap.min.js' %}"></script>
+    <script>
+      $(function () {
+        $('#assets_table').DataTable({
+          "paging": true,       <!-- 允许分页 -->
+          "lengthChange": true, <!-- 允许改变每页显示的行数 -->
+          "searching": true,    <!-- 允许内容搜索 -->
+          "ordering": true,     <!-- 允许排序 -->
+          "info": true,         <!-- 显示信息 -->
+          "autoWidth": false    <!-- 固定宽度 -->
+        });
+      });
+    </script>
+{% endblock %}
+
+

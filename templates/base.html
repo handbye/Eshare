@@ -1,0 +1,122 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{% block title %}主页{% endblock %}</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scae=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.min.css' %}">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.css'%}">
+    {% block css %}{% endblock %}
+</head>
+<body class="hold-transition skin-blue-light sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+
+    <!-- Logo -->
+    <a href="#" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>H</b>3C</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>E</b>share</span>
+    </a>
+
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <!-- Navbar Right Menu -->
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <!-- Messages: style can be found in dropdown.less-->
+          <li class="messages-menu">
+            <a href="/admin">
+              <i class="glyphicon glyphicon-log-in">&nbsp;登陆</i>
+            </a>
+          </li>
+          <li class="messages-menu">
+            <a href="{% url 'login:register' %}">
+              <i class="glyphicon glyphicon-registration-mark">&nbsp;注册</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" data-widget="tree">
+
+        <li class="{% block home_active %}{% endblock %}">
+          <a href="/">
+            <i class="fa fa-dashboard"></i> <span>仪表盘</span>
+          </a>
+        </li>
+        <li class="{% block data_active %}{% endblock %}">
+          <a href="{% url 'cloud:data' %}">
+            <i class="fa  fa-database"></i>
+            <span>资产总表</span>
+          </a>
+        </li>
+         <li class="{% block document_active %}{% endblock %}">
+          <a href="{% url 'md:md' 'config' %}">
+            <i class="fa   fa-book"></i>
+            <span>配置文档</span>
+          </a>
+         </li>
+         <li class="{% block usehelp_active %}{% endblock %}">
+          <a href="{% url 'md:md' 'use-help' %}">
+            <i class="fa   fa-flag"></i>
+            <span>使用帮助</span>
+          </a>
+         </li>
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+
+        {% block content %}
+
+        {% endblock %}
+  <!-- /.content-wrapper -->
+   </div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<!-- FastClick -->
+<script src="{% static 'bower_components/fastclick/lib/fastclick.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+<!-- Sparkline -->
+<script src="{% static 'bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+<!-- Slimscroll -->
+<script src="{% static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'dist/js/demo.js' %}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

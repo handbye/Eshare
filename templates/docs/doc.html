@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load staticfiles%}
+
+{% block title %}
+    {% if name == 'config' %}
+        配置文档
+    {% elif name == 'use-help' %}
+        使用帮助
+    {% else %}
+        Eshare
+    {% endif %}
+{% endblock %}
+
+
+{% block document_active %}
+    {% if name == 'config' %}
+    active
+    {% endif %}
+{% endblock %}
+
+{% block usehelp_active %}
+    {% if name == 'use-help' %}
+    active
+    {% endif %}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'code.css' %}">
+{% endblock %}
+
+{% block content %}
+    {{ html_content|safe }}
+{% endblock %}

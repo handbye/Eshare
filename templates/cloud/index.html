@@ -1,0 +1,358 @@
+{%  extends 'base.html' %}
+{%  load staticfiles %}
+
+
+{% block title %}仪表盘{% endblock %}
+{% block home_active %}active{% endblock %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        仪表盘
+        <small>Eshare</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">仪表盘</li>
+      </ol>
+    </section>
+
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- row -->
+      <div class="row">
+        <div class="col-xs-12">
+          <!-- jQuery Knob -->
+          <div class="box box-solid">
+            <div class="box-header">
+              <i class="fa fa-bar-chart-o"></i>
+              <h3 class="box-title">设备状态<small>（个数）</small></h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-default btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-xs-6 col-md-2 col-md-offset-1 text-center">
+                  <input type="text" class="knob" value="{{ upline }}" data-width="90" data-height="90" data-fgColor="#00a65a">
+                  <div class="knob-label">在线</div>
+                </div>
+                <!-- ./col -->
+                <div class="col-xs-6 col-md-2 text-center">
+                  <input type="text" class="knob" value="{{ offline }}" data-width="90" data-height="90" data-fgColor="#f56954">
+                  <div class="knob-label">下线</div>
+                </div>
+                <!-- ./col -->
+                <div class="col-xs-6 col-md-2 text-center">
+                  <input type="text" class="knob" value="{{ breakdown }}" data-width="90" data-height="90" data-fgColor="#cccccc">
+                  <div class="knob-label">故障</div>
+                </div>
+                <!-- ./col -->
+                <div class="col-xs-6 col-md-2  text-center">
+                  <input type="text" class="knob" value="{{ warning }}" data-width="90" data-height="90" data-fgColor="#932ab6">
+                  <div class="knob-label">请勿重装或删除</div>
+                </div>
+                <!-- ./col -->
+                <div class="col-xs-6 col-md-2  text-center">
+                  <input type="text" class="knob" value="{{ other }}" data-width="90" data-height="90" data-fgColor="#3c8dbc">
+                  <div class="knob-label">其它</div>
+                </div>
+             </div>
+            </div>
+          </div>
+        </div>
+
+            <div class="col-md-6">
+               <div class="box box-info">
+                <div class="box-header with-border">
+                    <i class="fa fa-pie-chart"></i>
+                  <h3 class="box-title">各类型资产数量统计</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="box-body">
+                    <div id="donutChart" style="height:400px"></div>
+                </div>
+               </div>
+              </div>
+
+            <div class="col-md-6">
+               <div class="box box-info">
+                <div class="box-header with-border">
+                    <i class="fa  fa-server"></i>
+                  <h3 class="box-title">服务器种类统计</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="box-body">
+                    <div id="lineChart" style="height:400px"></div>
+                </div>
+               </div>
+            </div>
+
+            <div class="col-md-5">
+               <div class="box box-info">
+                <div class="box-header with-border">
+                    <i class="fa  fa-user"></i>
+                  <h3 class="box-title">在线用户</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="box-body">
+                    <div id="userOnline" style="height:400px"></div>
+                </div>
+               </div>
+            </div>
+
+            <div class="col-md-7">
+               <div class="box box-info">
+                <div class="box-header with-border">
+                    <i class="fa   fa-area-chart"></i>
+                  <h3 class="box-title">用户登陆统计</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="box-body">
+                    <div id="userAccount" style="height:400px"></div>
+                </div>
+               </div>
+            </div>
+
+       </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'plugins/jquery-knob/jquery.knob.js' %}"></script>
+    <script src="{% static 'plugins/echarts.common.min.js' %}"></script>
+ <script>
+  $(function () {
+    /* jQueryKnob */
+
+    $(".knob").knob({
+      /*change : function (value) {
+       //console.log("change : " + value);
+       },
+       release : function (value) {
+       console.log("release : " + value);
+       },
+       cancel : function () {
+       console.log("cancel : " + this.value);
+       },*/
+      draw: function () {
+
+        // "tron" case
+        if (this.$.data('skin') == 'tron') {
+
+          var a = this.angle(this.cv)  // Angle
+              , sa = this.startAngle          // Previous start angle
+              , sat = this.startAngle         // Start angle
+              , ea                            // Previous end angle
+              , eat = sat + a                 // End angle
+              , r = true;
+
+          this.g.lineWidth = this.lineWidth;
+
+          this.o.cursor
+          && (sat = eat - 0.3)
+          && (eat = eat + 0.3);
+
+          if (this.o.displayPrevious) {
+            ea = this.startAngle + this.angle(this.value);
+            this.o.cursor
+            && (sa = ea - 0.3)
+            && (ea = ea + 0.3);
+            this.g.beginPath();
+            this.g.strokeStyle = this.previousColor;
+            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+            this.g.stroke();
+          }
+
+          this.g.beginPath();
+          this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+          this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+          this.g.stroke();
+
+          this.g.lineWidth = 2;
+          this.g.beginPath();
+          this.g.strokeStyle = this.o.fgColor;
+          this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+          this.g.stroke();
+
+          return false;
+        }
+      }
+    });
+    /* END JQUERY KNOB */
+    });
+
+   //资产类型数量统计 饼图
+    $(function () {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('donutChart'));
+
+        // 指定图表的配置项和数据
+        option = {
+            title : {
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['服务器','网络设备','存储设备','产品线数量']
+            },
+            series : [
+                {
+                    name: '资产类型',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:{{ server_number }}, name:'服务器'},
+                        {value:{{ network_number }}, name:'网络设备'},
+                        {value:{{ storage_number }}, name:'存储设备'},
+                        {value:{{ business_number }}, name:'产品线数量'},
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+    });
+
+    //服务器种类统计图
+    $(function () {
+        // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('lineChart'));
+    option = {
+        color: ['#3398DB'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '1%',
+            right: '1%',
+            bottom: '1%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : ['CAS', 'UIS', 'CloudOs', 'CLoudClass', '其它'],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'数量',
+                type:'bar',
+                barWidth: '30%',
+                data:[ {{ CAS_number }}, {{ UIS_number }}, {{ CloudOs_number }}, {{ Class_number}}, {{ other_server_number }}]
+            }
+        ]
+    };
+        // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    });
+
+    //在线用户数
+     $(function () {
+    // 基于准备好的dom，初始化echarts实例
+     var myChart = echarts.init(document.getElementById('userOnline'));
+     option = {
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        // orient: 'vertical',
+        // top: 'middle',
+        bottom: 10,
+        left: 'center',
+        data: ['总用户数', '离线用户数','当前在线用户数']
+    },
+    series : [
+        {
+            type: 'pie',
+            radius : '65%',
+            center: ['50%', '50%'],
+            selectedMode: 'single',
+            data:[
+                {value:{{ user_total_number }}, name: '总用户数'},
+                {value:{{ user_offline_number }}, name: '离线用户数'},
+                {value:{{ user_online_number }}, name: '当前在线用户数'},
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+        myChart.setOption(option);
+        });
+
+        //登陆时间统计
+         $(function () {
+            // 基于准备好的dom，初始化echarts实例
+             var myChart = echarts.init(document.getElementById('userAccount'));
+             option = {
+                xAxis: {
+                    type: 'category',
+                    data: ['{{ t1 }}','{{ t2 }}','{{ t3 }}','{{ t4 }}','{{ t5 }}'],
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: ['{{ user_count1 }}', '{{ user_count2 }}', '{{ user_count3 }}', '{{ user_count4 }}', '{{ user_count5 }}'],
+                    type: 'line'
+                }]
+            };
+
+    myChart.setOption(option);
+    });
+   </script>
+{% endblock %}
