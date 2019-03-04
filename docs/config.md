@@ -106,7 +106,7 @@ yum list #查看yum源是否可用
    - 进入安装目录编译安装
      ```
      cd nginx-1.14.2
-     ./configure --prefix=/usr/local/webserver/nginx  --with-pcre=/usr/local/src/pcre-8.42
+     ./configure --prefix=/usr/local/webserver/nginx  --with-pcre=../pcre-8.42
      make && make install
      ```
 
@@ -148,7 +148,7 @@ yum list #查看yum源是否可用
 ```
 4.查看nginx是否启动成功
 ```shell
-netstat -tlap | grep 8090
+netstat -tlap | grep 8080
 ```
 
 > 可以将nginx目录添加为环境变量，这样以后启动时就不用每次填写绝对路径
@@ -161,7 +161,7 @@ service iptables stop
 
 ## 安装uwsgi
 
-在安装uwsgi之前请先安装**python3**
+在安装uwsgi之前请先安装**python3.6**
 
 安装前请将pip源更换为H3C内部地址，pip源设置如下：
 
