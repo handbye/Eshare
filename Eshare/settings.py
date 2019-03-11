@@ -122,7 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR,'/static/')  #后台无样式需添加这个然后执行 python manage.py collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR,'static')  #后台无样式需添加这个然后执行 python manage.py collectstatic
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
