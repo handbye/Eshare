@@ -34,6 +34,3 @@
 - [x] 优化设备探测方式。
 - [ ] 其它功能添加。
 
-大家在使用过程中发现bug或者有新的需求可向lijun反馈，邮箱：
-<a href=mailto:YS.lijunA@h3c.com>YS.lijunA@h3c.com</a>
-
